@@ -21,6 +21,15 @@ class App extends React.Component {
     }))
   }
   
+  /**
+   * 스코어를 변경시키는 함수
+   * @param id : 플레이어 아이디
+   * @param delta 증가면 1 감소면 -1
+   */
+  handleChangeScore(id, delta) {
+    console.log('change score', id, delta);
+  }
+  
   render() {
     return (
       <div className="scoreboard">
@@ -30,7 +39,8 @@ class App extends React.Component {
           this.state.players.map(player => (
             <Player key={player.id}
                     name={player.name} id={player.id} score={player.score}
-                    removePlayer={this.handleRemovePlayer} />
+                    removePlayer={this.handleRemovePlayer}
+                    changeScore={this.handleChangeScore} />
           ))
         }
       </div>
