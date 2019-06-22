@@ -1,17 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Header} from './components/Header';
 import './App.css';
-
-const Header = ({title, totalPlayers}) => {
- // console.log(props);
- // const {title, totalPlayers} = props; // destruct assignment
-  return (
-    <header className="header">
-      <h1 className="h1">{title}</h1>
-      <span className="stats">Players: {totalPlayers}</span>
-    </header>
-  )
-}
 
 const Player = (props) => (
   <div className="player">
@@ -22,15 +11,6 @@ const Player = (props) => (
     <Counter />
   </div>
 )
-
-// function component
-// const Counter = (props) => (
-//   <div className="counter">
-//     <button className="counter-action decrement"> - </button>
-//     <span className="counter-score">{props.score}</span>
-//     <button className="counter-action increment"> + </button>
-//   </div>
-// )
 
 // class component
 class Counter extends React.Component {
@@ -91,7 +71,8 @@ class App extends React.Component {
         
         {
           this.state.players.map(player => (
-            <Player name={player.name} id={player.id} key={player.id} removePlayer={this.handleRemovePlayer} />
+            <Player name={player.name} id={player.id} key={player.id}
+                    removePlayer={this.handleRemovePlayer} />
           ))
         }
       </div>
