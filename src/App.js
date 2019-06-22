@@ -5,6 +5,8 @@ import {Player} from "./components/Player";
 import {AddPlayerForm} from "./components/AddPlayerForm";
 
 class App extends React.Component {
+  maxId = 4;
+  
   state = {
     players: [
       {name: 'AAA', id: 1, score: 0},
@@ -42,6 +44,16 @@ class App extends React.Component {
   
   handleAddPlayer = (name) => {
     console.log('add player name:', name);
+    this.setState(prevState => {
+      prevState.players.push({
+        name, // name: name, 값과 같으면 생략 가능
+        id: ++this.maxId,
+        score: 0
+      });
+      return {
+        plyers: [...prevState.players]
+      }
+    })
   }
   
   render() {
