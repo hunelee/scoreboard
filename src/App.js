@@ -3,18 +3,10 @@ import Header from './components/Header';
 import './App.css';
 import {Player} from "./components/Player";
 import {AddPlayerForm} from "./components/AddPlayerForm";
+import {connect} from "react-redux";
 
 class App extends React.Component {
   maxId = 4;
-  
-  state = {
-    players: [
-      {name: 'AAA', id: 1, score: 0},
-      {name: 'BBB', id: 2, score: 0},
-      {name: 'CCC', id: 3, score: 0},
-      {name: 'DDD', id: 4, score: 0}
-    ]
-  }
   
   handleRemovePlayer = (id) => {
     console.log('remove player: ', id);
@@ -37,21 +29,21 @@ class App extends React.Component {
         if (player.id === id) {
           player.score += delta;
         }
-      });
+      })
       return {players: [...prevState.players]}
-    });
+    })
   }
   
   handleAddPlayer = (name) => {
-    console.log('add player name:', name);
+    console.log('add player name: ', name);
     this.setState(prevState => {
       prevState.players.push({
-        name, // name: name, 값과 같으면 생략 가능
+        name,
         id: ++this.maxId,
         score: 0
       });
       return {
-        plyers: [...prevState.players]
+        players: [...prevState.players]
       }
     })
   }
@@ -59,21 +51,27 @@ class App extends React.Component {
   render() {
     return (
       <div className="scoreboard">
-        <Header /*title="My Scoreboard"*/ players={this.state.players} />
+        <Header players={this.props.players} />
         
         {
-          this.state.players.map(player => (
+          this.props.players.map(player => (
             <Player key={player.id}
                     name={player.name} id={player.id} score={player.score}
                     removePlayer={this.handleRemovePlayer}
-                    changeScore={this.handleChangeScore} />
+                    changeScore={this.handleChangeScore}/>
           ))
         }
         
-        <AddPlayerForm addPlayer={this.handleAddPlayer} />
+        <AddPlayerForm addPlayer={this.handleAddPlayer}/>
       </div>
     )
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  // 왼쪽은 props, 오른쪽은 state
+  players: state.playerReducer.players
+})
+
+// 커링 펑션, HoC
+export default connect(mapStateToProps, null)(App);
