@@ -33,5 +33,5 @@ const mapActionToProps = (dispatch) => ({
   removePlayer: (id) => dispatch(removePlayer(id))
 })
 
-// 커링 펑션, HoC
+// 커링 펑션, HoC(a higher-order component is 컴포넌트를 취하여 새로운 컴포넌트를 반환하는 함수)
 export default connect(null, mapActionToProps)(Player);
