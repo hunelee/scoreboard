@@ -2,11 +2,10 @@ import React from 'react';
 import Header from './components/Header';
 import './App.css';
 import {Player} from "./components/Player";
-import {AddPlayerForm} from "./components/AddPlayerForm";
+import AddPlayerForm from "./components/AddPlayerForm";
 import {connect} from "react-redux";
 
 class App extends React.Component {
-  maxId = 4;
   
   handleRemovePlayer = (id) => {
     console.log('remove player: ', id);
@@ -62,7 +61,7 @@ class App extends React.Component {
           ))
         }
         
-        <AddPlayerForm addPlayer={this.handleAddPlayer}/>
+        <AddPlayerForm />
       </div>
     )
   }
