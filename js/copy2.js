@@ -13,7 +13,7 @@ let book = {title: "인사이드 자바스크립트", price: 18000};
 // console.log(copyBook);
 
 // 2-2 es6 spread 연산자를 사용하여 deep copy 하기
-let copyBook = {...book, ...{b: 1}};
+let copyBook = {...book, ...{b: 1}}; // ...는 스프레드 연산자
 copyBook.price = 20000;
 console.log(book);
 console.log(copyBook);
