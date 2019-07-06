@@ -1,11 +1,12 @@
 import React from 'react';
-import Header from './components/Header';
-import './App.css';
-import Player from "./components/Player";
-import AddPlayerForm from "./components/AddPlayerForm";
 import {connect} from "react-redux";
+import Header from "../../components/Header";
+import Player from "../../components/Player";
+import AddPlayerForm from "../../components/AddPlayerForm";
 
-class App extends React.Component {
+import './Scoreboard.css';
+
+class Scoreboard extends React.Component {
   render() {
     return (
       <div className="scoreboard">
@@ -31,4 +32,4 @@ const mapStateToProps = (state) => ({
 })
 
 // 커링 펑션, HoC
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, null)(Scoreboard);
