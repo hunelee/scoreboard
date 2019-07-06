@@ -54,8 +54,8 @@ export class Heroes extends React.Component {
     });
   }
   
-  onChange = (e) => {
-    console.log(e);
+  onChange = (e, e2) => {
+    console.log(e, e2);
     // start_index update
     this.setState({
       currentPage: e
