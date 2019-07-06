@@ -7,7 +7,8 @@ export class Register extends React.Component {
     sex: {
       male: false,
       female: false
-    }
+    },
+    country: ''
   }
   
   handleText = (e, key) => {
@@ -60,10 +61,12 @@ export class Register extends React.Component {
       
           <div className="form-group mt-1">
             <label htmlFor="country">country</label>
-            <select className="form-control" id="country">
-              <option value="Japan">Japan</option>
-              <option value="American">American</option>
+            <select className="form-control" id="country"
+                    value={this.state.country} onChange={(e)=>this.handleText(e, 'country')}>
+              <option value=""></option>
               <option value="Korean">Korean</option>
+              <option value="American">American</option>
+              <option value="Others">Others</option>
             </select>
           </div>
       
