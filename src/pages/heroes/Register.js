@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from '../../utils/api';
 
 export class Register extends React.Component {
   state = {
@@ -15,7 +16,8 @@ export class Register extends React.Component {
       penetration: false,
       hacking: false,
       strength: false
-    }
+    },
+    photo: ''
   }
   
   handleText = (e, key) => {
@@ -38,24 +40,89 @@ export class Register extends React.Component {
     this.setState({power});
   }
   
+  submit = (e) => {
+    e.preventDefault();
+    console.log('submit');
+    
+    const sendForm = {...this.state};
+    // sex: 객체 => male or female 의 string 으로 변환
+    for (let key in this.state.sex) {
+      if (this.state.sex[key]) {
+        Object.assign(sendForm, {sex: key})
+      }
+    }
+    // powers: 객체 => 스트링 배열로 변환
+    const powers = [];
+    for (let key in this.state.powers) {
+      if (this.state.powers[key]) {
+        powers.push(key);
+      }
+    }
+    sendForm.powers = powers;
+    
+    console.log(sendForm);
+    
+    axios.post('/api/admin/hero', sendForm)
+      .then(response => {
+        console.log(response.data);
+        // form 초기화
+        this.setState({
+          name: '',
+          email: '',
+          sex: {
+            male: false,
+            female: false
+          },
+          country: '',
+          address: '',
+          powers: {
+            flying: false,
+            penetration: false,
+            hacking: false,
+            strength: false
+          },
+          photo: ''
+        });
+      });
+  }
+  
+  handleUpload = (e) => {
+    e.preventDefault();
+    
+    // 선택된 화일이 없으면 리턴
+    console.log(e.target.files);
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('photo', e.target.files[0], e.target.files[0].name);
+    axios.post('/api/admin/photo', formData)
+      .then(response => {
+        console.log(response.data);
+        this.setState({photo: response.data.data});
+      });
+  }
+  
   render() {
     return (
       <>
         <h3>Hero Registration</h3>
-    
-        <form>
+        
+        <form onSubmit={this.submit}>
           <div className="form-group mt-1">
             <label htmlFor="name">Name</label>
             <input type="text" className="form-control" placeholder="Enter Name" id="name"
-                   value={this.state.name} onChange={(e) => this.handleText(e, 'name')}/>
+                   value={this.state.name} onChange={(e) => this.handleText(e, 'name')}
+                   required minLength="3" maxLength="10" />
           </div>
-      
+          
           <div className="form-group mt-1">
             <label htmlFor="email">Email Address</label>
             <input type="email" className="form-control" placeholder="Enter Email" id="email"
-                   value={this.state.email} onChange={(e) => this.handleText(e, 'email')}/>
+                   value={this.state.email} onChange={(e) => this.handleText(e, 'email')} />
           </div>
-      
+          
           <div className="d-flex flex-column mt-1">
             <div>성별</div>
             <div>
@@ -71,24 +138,24 @@ export class Register extends React.Component {
               </div>
             </div>
           </div>
-      
+          
           <div className="form-group mt-1">
             <label htmlFor="country">country</label>
             <select className="form-control" id="country"
                     value={this.state.country} onChange={(e)=>this.handleText(e, 'country')}>
               <option value=""></option>
-              <option value="Korean">Korean</option>
+              <option value="Japan">Japan</option>
               <option value="American">American</option>
-              <option value="Others">Others</option>
+              <option value="Korean">Korean</option>
             </select>
           </div>
-      
+          
           <div className="form-group mt-1">
             <label htmlFor="address">Address</label>
             <textarea className="form-control" placeholder="Enter address" id="address" rows="3"
                       value={this.state.address} onChange={(e)=>this.handleText(e, 'address')}></textarea>
           </div>
-      
+          
           <div className="d-flex flex-column mt-1">
             <div>power</div>
             <div>
@@ -114,14 +181,27 @@ export class Register extends React.Component {
               </div>
             </div>
           </div>
-      
+          
+          <div className="d-flex flex-column mt-3 align-items-start">
+            <div>사진등록</div>
+            <div className="custom-file">
+              <input type="file" className="custom-file-input" id="customFile" accept="image/*" onChange={this.handleUpload} />
+              <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+            </div>
+            {
+              this.state.photo ? <img src={this.state.photo} alt={this.state.name} style={{width: '200px'}} /> : ''
+            }
+          </div>
+          
           <div className="m-3 d-flex justify-content-center">
             <button type="submit" className="btn btn-outline-primary">등록</button>
           </div>
-    
+        
         </form>
         
-        <p>{JSON.stringify(this.state)}</p>
+        <p>
+          {JSON.stringify(this.state)}
+        </p>
       </>
     );
   }
